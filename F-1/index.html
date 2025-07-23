@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Velocity F1 Streetwear: Premium, race-inspired apparel for the track and street. Shop tees, jackets, caps, and more.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velocity | F1 Streetwear</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom UI enhancements */
+        .hero-pattern {
+            background: linear-gradient(120deg, #1a1a1a 60%, #e10600 100%);
+            box-shadow: 0 8px 32px 0 rgba(34,34,34,0.25);
+        }
+        .category-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .category-card:hover {
+            transform: translateY(-6px) scale(1.03);
+            box-shadow: 0 8px 32px 0 rgba(225,6,0,0.15);
+            border: 2px solid #e10600;
+        }
+        .product-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .product-card:hover {
+            transform: translateY(-6px) scale(1.03);
+            box-shadow: 0 8px 32px 0 rgba(34,34,34,0.15);
+            border: 2px solid #e10600;
+        }
+        .bg-f1-red { background-color: #e10600; }
+        .hover\:bg-f1-red-dark:hover { background-color: #b80000; }
+        .bg-f1-teal { background-color: #00c7b1; }
+        .hover\:bg-f1-teal-dark:hover { background-color: #009e8a; }
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+        .glass {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .input-underline {
+            border: none;
+            border-bottom: 2px solid #e5e7eb;
+            border-radius: 0;
+            background: transparent;
+        }
+        .input-underline:focus {
+            border-bottom: 2px solid #e10600;
+            outline: none;
+        }
+        /* Animate buttons */
+        .btn-animate {
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+        .btn-animate:active {
+            transform: scale(0.97);
+            box-shadow: 0 2px 8px 0 rgba(225,6,0,0.10);
+        }
+        /* Custom scrollbar for search and mini-cart */
+        .search-results, .mini-cart {
+            scrollbar-width: thin;
+            scrollbar-color: #e10600 #f3f4f6;
+        }
+        .search-results::-webkit-scrollbar, .mini-cart::-webkit-scrollbar {
+            width: 8px;
+        }
+        .search-results::-webkit-scrollbar-thumb, .mini-cart::-webkit-scrollbar-thumb {
+            background: #e10600;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="font-roboto bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md sticky top-0 z-50 glass" aria-label="Main Navigation">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center" aria-label="Brand">
+                <div class="w-10 h-10 rounded-full bg-f1-red flex items-center justify-center text-white font-bold mr-2 font-orbitron text-xl shadow-lg" aria-hidden="true">V</div>
+                <h1 class="text-2xl font-bold font-orbitron tracking-widest text-gray-900">VELOCITY</h1>
+            </div>
+            <div class="hidden md:flex space-x-8" role="navigation" aria-label="Primary">
+                <a href="#home" class="font-medium hover:text-f1-red focus:outline-none focus:text-f1-red transition-colors">Home</a>
+                <a href="#shop" class="font-medium hover:text-f1-red focus:outline-none focus:text-f1-red transition-colors">Shop</a>
+                <a href="#categories" class="font-medium hover:text-f1-red focus:outline-none focus:text-f1-red transition-colors">Categories</a>
+                <a href="#collections" class="font-medium hover:text-f1-red focus:outline-none focus:text-f1-red transition-colors">Collections</a>
+            </div>
+            <div class="flex items-center space-x-6">
+                <button id="searchToggle" class="hover:text-f1-red focus:outline-none focus:text-f1-red btn-animate" aria-label="Open search">
+                    <i class="fas fa-search"></i>
+                </button>
+                <a href="#cart" class="hover:text-f1-red relative focus:outline-none focus:text-f1-red btn-animate" aria-label="View cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count absolute -top-2 -right-2 bg-f1-red text-white text-xs rounded-full h-5 w-5 flex items-center justify-center shadow" aria-live="polite">0</span>
+                </a>
+                <a href="#auth" class="hover:text-f1-red focus:outline-none focus:text-f1-red btn-animate" aria-label="Account">
+                    <i class="fas fa-user"></i>
+                </a>
+                <button class="md:hidden btn-animate" id="mobileMenuToggle" aria-label="Open mobile menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white py-4 px-4 border-t glass" aria-label="Mobile Navigation">
+            <div class="flex flex-col space-y-4">
+                <a href="#home" class="font-medium hover:text-f1-red focus:outline-none focus:text-f1-red">Home</a>
+                <a href="#shop" class="font-medium hover:text-f1-red focus:outline-none focus:text-f1-red">Shop</a>
+                <a href="#categories" class="font-medium hover:text-f1-red focus:outline-none focus:text-f1-red">Categories</a>
+                <a href="#collections" class="font-medium hover:text-f1-red focus:outline-none focus:text-f1-red">Collections</a>
+            </div>
+        </div>
+        <!-- Search Bar -->
+        <div id="searchBar" class="hidden bg-white py-3 px-4 border-t glass">
+            <div class="relative max-w-2xl mx-auto">
+                <input type="text" placeholder="Search products..." aria-label="Search products" class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-f1-red focus:border-transparent shadow-sm transition">
+                <i class="fas fa-search absolute left-3 top-3 text-gray-400" aria-hidden="true"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Home Page -->
+        <section id="home" class="mb-16" aria-labelledby="home-heading">
+            <!-- Hero Section ...existing code... -->
+
+            <!-- Enhanced Categories Section -->
+            <div id="categories" class="mb-12">
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-3xl font-bold font-orbitron">CATEGORIES</h2>
+                    <a href="#shop" class="text-f1-red font-semibold flex items-center focus:outline-none focus:underline transition-colors">
+                        View All <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
+                    </a>
+                </div>
+                <div id="categoriesGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                    <!-- Cards will be injected by JS -->
+                </div>
+            </div>
+
+            <!-- Enhanced Collections Section -->
+            <div id="collections" class="mb-12">
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-3xl font-bold font-orbitron">COLLECTIONS</h2>
+                    <a href="#shop" class="text-f1-red font-semibold flex items-center focus:outline-none focus:underline transition-colors">
+                        Shop All <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
+                    </a>
+                </div>
+                <div id="collectionsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Cards will be injected by JS -->
+                </div>
+            </div>
+
+            <!-- Featured Products -->
+            <div id="featured-products" class="mb-12">
+                <h2 class="text-3xl font-bold font-orbitron mb-8">FEATURED PRODUCTS</h2>
+                <div id="featuredGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Featured products will be loaded dynamically -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Shop Page -->
+        <section id="shop" class="hidden mb-16" aria-labelledby="shop-heading">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+                <h2 id="shop-heading" class="text-3xl font-bold font-orbitron mb-4 md:mb-0">ALL PRODUCTS</h2>
+                <div class="flex flex-col md:flex-row w-full md:w-auto space-y-4 md:space-y-0 md:space-x-4">
+                    <div class="relative w-full md:w-64">
+                        <input id="shopSearch" type="text" placeholder="Search products..." aria-label="Search products" class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-f1-red focus:border-transparent shadow-sm transition">
+                        <i class="fas fa-search absolute left-3 top-3 text-gray-400" aria-hidden="true"></i>
+                    </div>
+                    <select id="sortProducts" class="w-full md:w-auto px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-f1-red focus:border-transparent shadow-sm transition" aria-label="Sort products">
+                        <option value="">Sort by</option>
+                        <option value="low">Price: Low to High</option>
+                        <option value="high">Price: High to Low</option>
+                        <option value="newest">Newest</option>
+                        <option value="popular">Popular</option>
+                    </select>
+                </div>
+            </div>
+            <div id="shopGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- All products will be loaded dynamically -->
+            </div>
+            <div class="mt-12 flex justify-center">
+                <button id="loadMoreBtn" class="bg-black hover:bg-gray-800 text-white px-8 py-3 rounded-full font-bold transition duration-300 focus:outline-none focus:ring-2 focus:ring-f1-red btn-animate shadow-lg" aria-label="Load more products">
+                    Load More
+                </button>
+            </div>
+        </section>
+
+        <!-- Category Page -->
+        <section id="category" class="hidden mb-16" aria-labelledby="categoryTitle">
+            <div class="flex justify-between items-center mb-8">
+                <h2 id="categoryTitle" class="text-3xl font-bold font-orbitron">CATEGORY</h2>
+                <div class="relative w-full md:w-64">
+                    <input id="categorySearch" type="text" placeholder="Search in category..." aria-label="Search in category" class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-f1-red focus:border-transparent shadow-sm transition">
+                    <i class="fas fa-search absolute left-3 top-3 text-gray-400" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div id="categoryProducts" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Category products will be loaded dynamically -->
+            </div>
+        </section>
+
+        <!-- Product Page -->
+        <section id="product" class="hidden mb-16" aria-labelledby="product-heading">
+            <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div>
+                    <div class="product-image-main bg-gray-200 rounded-xl h-96 flex items-center justify-center mb-4 shadow" aria-label="Product main image">
+                        <!-- Main image will be inserted here -->
+                    </div>
+                    <div class="grid grid-cols-4 gap-2 product-thumbnails" aria-label="Product thumbnails">
+                        <!-- Thumbnails will be inserted here -->
+                    </div>
+                </div>
+                <div class="product-info">
+                    <!-- Product details will be inserted here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Cart Page ...existing code... -->
+
+        <!-- Authentication Pages -->
+        <section id="auth" class="hidden mb-16" aria-labelledby="auth-heading">
+            <div class="max-w-md mx-auto bg-white rounded-2xl shadow-md p-8 glass">
+                <div class="flex border-b border-gray-200 mb-6" role="tablist">
+                    <button class="auth-tab active py-2 px-4 font-medium text-f1-red border-b-2 border-f1-red" data-tab="login" role="tab" aria-selected="true" aria-controls="loginForm">Login</button>
+                    <button class="auth-tab py-2 px-4 font-medium text-gray-600 hover:text-f1-red" data-tab="signup" role="tab" aria-selected="false" aria-controls="signupForm">Sign Up</button>
+                </div>
+                <!-- Login Form -->
+                <div id="loginForm" class="auth-form" role="tabpanel" aria-labelledby="login-tab">
+                    <form id="loginUserForm" autocomplete="on">
+                        <div class="mb-6">
+                            <label class="block text-gray-700 mb-2" for="loginEmail">Email Address</label>
+                            <input id="loginEmail" type="email" name="email" class="w-full px-4 py-3 input-underline focus:border-f1-red" required autocomplete="email">
+                        </div>
+                        <div class="mb-6">
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="block text-gray-700" for="loginPassword">Password</label>
+                                <a href="#forgot" class="text-f1-red text-sm forgot-password-link">Forgot password?</a>
+                            </div>
+                            <input id="loginPassword" type="password" name="password" class="w-full px-4 py-3 input-underline focus:border-f1-red" required autocomplete="current-password">
+                        </div>
+                        <div class="flex items-center mb-6">
+                            <input type="checkbox" id="remember" name="remember" class="mr-2">
+                            <label for="remember" class="text-gray-700">Remember me</label>
+                        </div>
+                        <button type="submit" class="w-full bg-f1-red hover:bg-f1-red-dark text-white py-4 rounded-full font-bold transition duration-300 mb-6 focus:outline-none focus:ring-2 focus:ring-f1-red btn-animate">
+                            Login
+                        </button>
+                    </form>
+                </div>
+                <!-- Signup Form -->
+                <div id="signupForm" class="auth-form hidden" role="tabpanel" aria-labelledby="signup-tab">
+                    <form id="signupUserForm" autocomplete="on">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label class="block text-gray-700 mb-2" for="firstName">First Name</label>
+                                <input id="firstName" type="text" name="firstName" class="w-full px-4 py-3 input-underline focus:border-f1-red" required autocomplete="given-name">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2" for="lastName">Last Name</label>
+                                <input id="lastName" type="text" name="lastName" class="w-full px-4 py-3 input-underline focus:border-f1-red" required autocomplete="family-name">
+                            </div>
+                        </div>
+                        <div class="mb-6">
+                            <label class="block text-gray-700 mb-2" for="signupEmail">Email Address</label>
+                            <input id="signupEmail" type="email" name="email" class="w-full px-4 py-3 input-underline focus:border-f1-red" required autocomplete="email">
+                        </div>
+                        <div class="mb-6">
+                            <label class="block text-gray-700 mb-2" for="signupPassword">Password</label>
+                            <input id="signupPassword" type="password" name="password" class="w-full px-4 py-3 input-underline focus:border-f1-red" required autocomplete="new-password">
+                            <p class="text-gray-500 text-xs mt-2">Must be at least 8 characters</p>
+                        </div>
+                        <div class="flex items-center mb-6">
+                            <input type="checkbox" id="terms" name="terms" class="mr-2" required>
+                            <label for="terms" class="text-gray-700">I agree to the <a href="#" class="text-f1-red">Terms &amp; Conditions</a></label>
+                        </div>
+                        <button type="submit" class="w-full bg-black hover:bg-gray-800 text-white py-4 rounded-full font-bold transition duration-300 focus:outline-none focus:ring-2 focus:ring-f1-red btn-animate">
+                            Create Account
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <!-- ...forgot password, OTP, etc... -->
+        </section>
+        <!-- ...rest of your main content... -->
+    </main>
+    <!-- Footer -->
+    <footer class="bg-black text-white py-12" aria-label="Site Footer">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-f1-red flex items-center justify-center text-white font-bold mr-2 font-orbitron" aria-hidden="true">V</div>
+                        <h2 class="text-2xl font-bold font-orbitron">VELOCITY</h2>
+                    </div>
+                    <p class="text-gray-400 mb-4">Premium F1-inspired streetwear for the track and the streets.</p>
+                    <div class="flex space-x-4" aria-label="Social Media">
+                        <a href="#" class="text-gray-400 hover:text-white focus:underline" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white focus:underline" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white focus:underline" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white focus:underline" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Shop</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#tees" class="text-gray-400 hover:text-white focus:underline">Tees</a></li>
+                        <li><a href="#jackets" class="text-gray-400 hover:text-white focus:underline">Jackets</a></li>
+                        <li><a href="#caps" class="text-gray-400 hover:text-white focus:underline">Caps</a></li>
+                        <li><a href="#accessories" class="text-gray-400 hover:text-white focus:underline">Accessories</a></li>
+                        <li><a href="#limited" class="text-gray-400 hover:text-white focus:underline">Limited Edition</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Support</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white focus:underline">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white focus:underline">FAQs</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white focus:underline">Shipping &amp; Returns</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white focus:underline">Size Guide</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white focus:underline">Track Order</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Newsletter</h3>
+                    <p class="text-gray-400 mb-4">Subscribe for exclusive offers and updates.</p>
+                    <form class="flex" aria-label="Newsletter Signup">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l-lg w-full focus:outline-none text-gray-800" aria-label="Your email">
+                        <button class="bg-f1-red hover:bg-f1-red-dark px-4 py-2 rounded-r-lg focus:outline-none focus:ring-2 focus:ring-f1-red btn-animate" aria-label="Subscribe">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500">
+                <p>&copy; 2025 Velocity F1 Streetwear. All rights reserved. This site is for demonstration purposes only.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="scripts/main.js" defer></script>
+</body>
+</html>
